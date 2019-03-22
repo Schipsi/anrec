@@ -17,25 +17,31 @@
     <!-- custom css -->
     <link rel="stylesheet" href="index.css" />
   </head>
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-primary d-flex">
-      <a class="navbar-brand mx-auto" href="#">Strasbourg Monument GO</a>
-      <i class="fas fa-cog mr-4"></i>
-      <div class="dropdown country-dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <img class="displayed-flag" src="france.svg" />
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <a class="dropdown-item" href="#france"><img src="france.svg" /></a>
-          <a class="dropdown-item" href="#britain"><img src="britain.svg" /></a>
-          <a class="dropdown-item" href="#spain"><img src="spain.svg" /></a>
-          <a class="dropdown-item" href="#germany"><img src="germany.svg" /></a>
+  <body class="d-flex flex-column">
+    <div class="header">
+      <nav class="navbar navbar-expand-lg navbar-light bg-primary d-flex">
+        <a class="navbar-brand mx-auto" href="#">Strasbourg Monument GO</a>
+        <i class="fas fa-cog mr-4"></i>
+        <div class="dropdown country-dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <img class="displayed-flag" src="france.svg" />
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#france"><img src="france.svg" /></a>
+            <a class="dropdown-item" href="#britain"><img src="britain.svg" /></a>
+            <a class="dropdown-item" href="#spain"><img src="spain.svg" /></a>
+            <a class="dropdown-item" href="#germany"><img src="germany.svg" /></a>
+          </div>
         </div>
+      </nav>
+    </div>
+    <div class="content">
+      <div class="container d-flex justify-content-center mt-5">
+        <div id="mapid"></div>
       </div>
-    </nav>
-    </ul>
-    <div class="container d-flex justify-content-center mt-5">
-      <div id="mapid"></div>
+    </div>
+    <div class="footer text-center p-3"> 2019 Copyright : Thibaut JUSTON et Grégoire DUPRÉ LA TOUR.
+      See code on <a href="https://github.com/Schipsi/anrec">GitHub</a>
     </div>
     <script>
       //init map

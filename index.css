@@ -1,6 +1,6 @@
-#mapid {
-  height: 400px;
-  width: 600px;
+html,
+body {
+  min-height: 100vh;
 }
 
 nav .navbar-brand {
@@ -14,4 +14,13 @@ nav .navbar-brand {
 
 .country-dropdown .dropdown-menu {
   min-width: 0;
+}
+
+.content {
+  flex-grow: 1;
+}
+
+#mapid {
+  height: 400px;
+  width: 600px;
 }
