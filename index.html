@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <title>Strasbourg Monument Go</title>
+    <!-- leaflet map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
+    <!-- bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <!-- custom css -->
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary d-flex">
+      <a class="navbar-brand mx-auto" href="#">Strasbourg Monument GO</a>
+      <i class="fas fa-cog mr-4"></i>
+      <div class="dropdown country-dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <img class="displayed-flag" src="france.svg" />
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" href="#france"><img src="france.svg" /></a>
+          <a class="dropdown-item" href="#britain"><img src="britain.svg" /></a>
+          <a class="dropdown-item" href="#spain"><img src="spain.svg" /></a>
+          <a class="dropdown-item" href="#germany"><img src="germany.svg" /></a>
+        </div>
+      </div>
+    </nav>
+    </ul>
+    <div class="container d-flex justify-content-center mt-5">
+      <div id="mapid"></div>
+    </div>
+    <script>
+      //init map
+      var mymap = L.map('mapid').setView([48.582625, 7.748004], 15);
+      L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoic2NoaXBzaSIsImEiOiJjanRpZjEzbTEwYm5uNDRuMHl2dmdqaGNmIn0.mJbDNf8yeyipaLnRg_pWuQ', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox.streets',
+        accessToken: 'your.mapbox.access.token'
+      }).addTo(mymap);
+
+      function loadJSON(callback) {
+
+        var xobj = new XMLHttpRequest();
+        xobj.overrideMimeType("application/json");
+        xobj.open('GET', 'https://gist.githubusercontent.com/Schipsi/9728ab51309cb9d4d6828cae7b9389ce/raw/2657157f3275e1eddc381c882579b5090ff3b1f6/strasbourg_data.json', true);
+        xobj.onreadystatechange = function() {
+          if (xobj.readyState == 4 && xobj.status == "200") {
+            // .open will NOT return a value but simply returns undefined in async mode so use a callback
+            callback(xobj.responseText);
+          }
+        }
+        xobj.send(null);
+      }
+
+      // Call to function with anonymous callback
+      loadJSON(function(response) {
+        jsonresponse = JSON.parse(response);
+
+        // // Add monuments to map
+        var array = [];
+        for (var i=0; i<jsonresponse.length; i++) {
+            if (jsonresponse[i].nom != "") {
+              var lon = jsonresponse[i].longitude;
+              var lat = jsonresponse[i].lattitude;
+              var popupText = jsonresponse[i].nom != "" ? jsonresponse[i].nom : jsonresponse[i].adresse;
+
+              var markerLocation = new L.LatLng(lat, lon);
+              var marker = new L.Marker(markerLocation);
+
+              mymap.addLayer(marker);
+
+              marker.bindPopup(popupText);
+            }
+         }
+      });
+    </script>
+  </body>
+</html>
